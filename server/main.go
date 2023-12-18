@@ -33,8 +33,30 @@ func main() {
 	})
 
 	router.POST("turn-r", func(c *gin.Context) {
-		cube := renderCube()
-		turnedCube := turnR(cube)
+		// Define a struct to match the JSON data structure sent from the frontend
+		var requestData Cube // Assuming that Cube matches the JSON structure
+
+		// Parse the JSON data from the request body into requestData
+		if err := c.ShouldBindJSON(&requestData); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		
+		turnedCube := turnR(requestData)
+		c.IndentedJSON(http.StatusOK, turnedCube)
+	})
+
+	router.POST("turn-r-prime", func(c *gin.Context) {
+		// Define a struct to match the JSON data structure sent from the frontend
+		var requestData Cube // Assuming that Cube matches the JSON structure
+
+		// Parse the JSON data from the request body into requestData
+		if err := c.ShouldBindJSON(&requestData); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		
+		turnedCube := turnRPrime(requestData)
 		c.IndentedJSON(http.StatusOK, turnedCube)
 	})
 
@@ -75,10 +97,11 @@ func getColor(code int) string {
 
 // Turn R
 func turnR(cube Cube) Cube {
-	// We create a new Cube object
-	newCube := renderCube()
+	// We create a new Cube object instance
+	newCube := cube
+	printCube(newCube)
 
-	// Set colors
+	// Perfom the turn
 	for face := 0; face < 6; face++ {
 		if face != 1 && face != 3 {
 			for row := 0; row < 3; row++ {
@@ -104,20 +127,52 @@ func getFaceForTurnR(face int) int {
 		return face
     }
 }
+
+// Turn R Prime
+func turnRPrime(cube Cube) Cube {
+	// We create a new Cube object
+	newCube := cube
+
+	// Set colors
+	for face := 0; face < 6; face++ {
+		if face != 1 && face != 3 {
+			for row := 0; row < 3; row++ {
+				newCube[face][row][2] = cube[getFaceForTurnRPrime(face)][row][2]
+			}
+		}
+	}
+	return newCube
+}
+
+// get correct face for turn R Prime
+func getFaceForTurnRPrime(face int) int {
+	switch face {
+    case 0:
+        return 5
+	case 2:
+        return 0
+	case 4:
+        return 2
+	case 5:
+        return 4
+	default:
+		return face
+    }
+}
 	
 
 
 // Print cube func 
-// func printCube(cube Cube) Cube {
-// 	for i := 0; i < len(cube); i++ {
-// 		fmt.Print("\n")
-// 		for j := 0; j < len(cube[i]); j++ {
-// 			fmt.Println(cube[i][j])
-// 		}
-// 	}
+func printCube(cube Cube) Cube {
+	for i := 0; i < len(cube); i++ {
+		fmt.Print("\n")
+		for j := 0; j < len(cube[i]); j++ {
+			fmt.Println(cube[i][j])
+		}
+	}
 
-// 	return cube
-// }
+	return cube
+}
 
 
 
