@@ -4,11 +4,11 @@ package utils
 func GetColor(code int) string {
 	colorMap := map[int]string {
 		0: "W",
-		1: "O",
+		1: "Y",
 		2: "G",
-		3: "R",
-		4: "Y",
-		5: "B",
+		3: "B",
+		4: "R",
+		5: "O",
 	}
 	return colorMap[code]
 }
