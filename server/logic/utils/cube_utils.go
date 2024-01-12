@@ -2,6 +2,7 @@ package utils
 
 import (
 	"reflect"
+	"server/logic/helpers"
 	"server/logic/models"
 )
 
@@ -49,16 +50,36 @@ func RemoveNucleus(combinations models.CubeCombinatios) models.CubeCombinatios {
 	return newSlice
 } 
 
-// Get all valid colors combinations for every piece
-// func GenerateColors(pieces models.PieceTypes, positions models.CubeCombinatios) models.PieceColors {
-// 	colors := []string{"White", "Yellow", "Green", "Blue", "Red", "Orange"}
-// 	var piecesColors models.PieceColors
+func GenerateColors() [][]string {
+    colors := []string{"White", "Yellow", "Blue", "Red", "Orange", "Green"}
+    var combinations [][]string
 
-// 	sliceOfColors 
-// 	piecesColors = append(piecesColors, sliceOfColors)
-// 	return piecesColors
+    var generate func(int, []string)
+    generate = func(start int, currentCombination []string) {
+        if len(currentCombination) > 0 && len(currentCombination) <= 3 {
+            combinations = append(combinations, append([]string(nil), currentCombination...))
+        }
+        if len(currentCombination) == 3 {
+            return // Stop if the current combination is already of length 3
+        }
 
-// }
+        for i := start; i < len(colors); i++ {
+            if helpers.ContainsColor(currentCombination, "White") && colors[i] == "Yellow" || helpers.ContainsColor(currentCombination, "Yellow") && colors[i] == "White" {
+                continue // Skip if adding this color violates the restriction
+            } else if helpers.ContainsColor(currentCombination, "Green") && colors[i] == "Blue" || helpers.ContainsColor(currentCombination, "Blue") && colors[i] == "Green" {
+                continue // Skip if adding this color violates the restriction
+            } else if helpers.ContainsColor(currentCombination, "Red") && colors[i] == "Orange" || helpers.ContainsColor(currentCombination, "Orange") && colors[i] == "Red" {
+                continue // Skip if adding this color violates the restriction
+            }
+            generate(i+1, append(currentCombination, colors[i]))
+        }
+    }
+
+    generate(0, []string{})
+    return combinations
+}
+
+
 
 
 // Get all valid color types for every piece
@@ -75,6 +96,10 @@ func GeneratePieceTypes(combinations models.CubeCombinatios) models.PieceTypes {
 	}
 	return result
 }
+
+// func isOppositeColor(firstColor string, secondColor string) bool {
+
+// }
 
 func isCenter(tensor []int) bool {
 	n := 0

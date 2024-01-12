@@ -10,21 +10,33 @@ import (
 
 // Render default Cube Data Structure
 
-func RenderCubeTensor() models.CubeCombinatios {
+func RenderCubeTensor() models.CubeTensor {
 	// Render all combinatios pieces positions
 	var combinations, positions models.CubeCombinatios
 	combinations = utils.GenerateCombinations(3) 
 	positions = utils.RemoveNucleus(combinations)
 	 
-	// Assign piece types 
+	// Render piece types 
 	var pieceTypes models.PieceTypes 
 	pieceTypes = utils.GeneratePieceTypes(positions)
 
-	// Assign all colors slices
+	// Render all piece valid color combinations
+	var pieceColors [][]string
+	pieceColors = utils.GenerateColors()
 
+	// Create Cube Data Sctructure
+	var cube models.CubeTensor
+	for i, position := range positions {
+		var piece models.Piece
+		piece.Tensor = position
+		piece.Colors = pieceColors[i]
+		piece.PieceType = pieceTypes[i]
+
+		cube = append(cube, piece)
+	}
 
 	// Return Cube Data Structure
-	return positions
+	return cube
 }
 
 // This function read params and decides which is the right turn to do

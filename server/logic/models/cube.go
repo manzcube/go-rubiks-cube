@@ -5,9 +5,9 @@ type EmptyCube [6][3][3]int
 type Cube [6][3][3]string
 
 type Piece struct {
-	tensor []int
-	colors []string
-	pieceType string
+	Tensor []int
+	Colors []string
+	PieceType string
 }
 
 type CubeTensor []Piece
