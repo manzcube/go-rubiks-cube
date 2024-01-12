@@ -28,7 +28,6 @@ func main() {
 	// Register Routes
 	routes.RegisterCubeRoutes(router)
 
-	
 	// Communicate
 	fmt.Printf("GIN server running on port 8080\n")
 	router.Run("localhost:8080")

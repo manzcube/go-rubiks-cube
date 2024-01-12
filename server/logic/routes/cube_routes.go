@@ -12,6 +12,10 @@ func RegisterCubeRoutes(router *gin.Engine) {
 		cube := controllers.RenderCube()
 		c.IndentedJSON(http.StatusOK, cube)
 	})
+	router.GET("/combinations", func (c *gin.Context) {
+		cube := controllers.RenderCubeTensor()
+		c.IndentedJSON(http.StatusOK, cube)
+	})
 	router.POST("/turn/:direction", controllers.TurnHandler)
 }
 

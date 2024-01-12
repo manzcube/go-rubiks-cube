@@ -8,6 +8,25 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Render default Cube Data Structure
+
+func RenderCubeTensor() models.CubeCombinatios {
+	// Render all combinatios pieces positions
+	var combinations, positions models.CubeCombinatios
+	combinations = utils.GenerateCombinations(3) 
+	positions = utils.RemoveNucleus(combinations)
+	 
+	// Assign piece types 
+	var pieceTypes models.PieceTypes 
+	pieceTypes = utils.GeneratePieceTypes(positions)
+
+	// Assign all colors slices
+
+
+	// Return Cube Data Structure
+	return positions
+}
+
 // This function read params and decides which is the right turn to do
 func TurnHandler(c *gin.Context) {
 	// Take params to know which turn func to execute
@@ -57,6 +76,8 @@ func HandleCubeTurn(c *gin.Context, turnFunc func(models.Cube) models.Cube) {
 
 // // GET controllers
 
+
+
 // Render default cube state
 func RenderCube() models.Cube {
 	// Create an instance of the Rubik's Cube
@@ -77,6 +98,19 @@ func RenderCube() models.Cube {
 // // POST turning controllers
 
 // Turn R
+// func TurnUCombinations(cube models.CubeTensor) models.CubeTensor {
+// 	// We create a new Cube object instance
+// 	newCube := cube
+
+// 	// Perfom the turn
+// 	for _, piece := range cube {
+// 		if piece[0] == 0 && !slices.Contains(piece, 1) { // If the first element of piece is 0 and it doesn't contains 1 (translated to x dimendion to 0 and not an edge piece)
+// 			fmt.Println(piece)
+// 		}
+// 	}
+// 	return newCube
+// }
+
 func turnR(cube models.Cube) models.Cube {
 	// We create a new Cube object instance
 	newCube := cube
