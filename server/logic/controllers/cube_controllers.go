@@ -1,7 +1,9 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
+	"server/logic/helpers"
 	"server/logic/models"
 	"server/logic/utils"
 
@@ -9,12 +11,11 @@ import (
 )
 
 // Render default Cube Data Structure
-
 func RenderCubeTensor() models.CubeTensor {
 	// Render all combinatios pieces positions
 	var combinations, positions models.CubeCombinatios
 	combinations = utils.GenerateCombinations(3) 
-	positions = utils.RemoveNucleus(combinations)
+	positions = helpers.RemoveNucleus(combinations)
 	 
 	// Render piece types 
 	var pieceTypes models.PieceTypes 
@@ -24,13 +25,26 @@ func RenderCubeTensor() models.CubeTensor {
 	var pieceColors [][]string
 	pieceColors = utils.GenerateColors()
 
+	// ORdering cOlors
+	orderedColors := utils.OrderColors(positions, pieceTypes, pieceColors)
+	var elementsToSwap = models.PieceColors{
+		{"Blue", "Red"},
+		{"Orange", "Yellow"},
+		{"Blue", "Yellow"},
+		{"Green", "Red"},
+	}
+
+	newOrderedColors := utils.SwapElements(orderedColors, elementsToSwap)
+	log.Println("ORDered ColOrs", newOrderedColors)
+
+
 	// Create Cube Data Sctructure
 	var cube models.CubeTensor
 	for i, position := range positions {
 		var piece models.Piece
 		piece.Tensor = position
-		piece.Colors = pieceColors[i]
 		piece.PieceType = pieceTypes[i]
+		piece.Colors = newOrderedColors[i]		
 
 		cube = append(cube, piece)
 	}
@@ -99,7 +113,7 @@ func RenderCube() models.Cube {
 	for face := 0; face < 6; face++ {
 		for row := 0; row < 3; row++ {
 			for col := 0; col < 3; col++ {
-				color := utils.GetColor(face)
+				color := helpers.GetColor(face)
 				cube[face][row][col] = color
 			}
 		}

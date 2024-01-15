@@ -1,9 +1,9 @@
 package utils
 
 import (
-	"reflect"
 	"server/logic/helpers"
 	"server/logic/models"
+	"slices"
 )
 
 // Tensor combinations
@@ -38,20 +38,27 @@ func GenerateCombinations(n int) [][]int {
 	return generate(0, make([]int, n), [][]int{})
 }
 
-// Remove Nucleus piece to avoid trauma
-func RemoveNucleus(combinations models.CubeCombinatios) models.CubeCombinatios {
-	var newSlice [][]int
-	nucleus := []int{1, 1, 1}
-	for _, v := range combinations {
-		if !reflect.DeepEqual(v, nucleus) {
-			newSlice = append(newSlice, v)
+
+// Get all valid color types for every piece
+func GeneratePieceTypes(combinations models.CubeCombinatios) models.PieceTypes {
+	var result []string
+	for _, tensor := range combinations {
+		if helpers.Sum(tensor) % 2 != 0 {
+			result = append(result, "edge")
+		} else if helpers.IsCenter(tensor) {
+			result = append(result, "center")
+		} else {
+			result = append(result, "corner")
 		}
 	}
-	return newSlice
-} 
+	return result
+}
 
+
+
+// Generate all possible color combinations for respective pieces
 func GenerateColors() [][]string {
-    colors := []string{"White", "Yellow", "Blue", "Red", "Orange", "Green"}
+    colors := []string{"White", "Orange", "Blue", "Green", "Red", "Yellow"}
     var combinations [][]string
 
     var generate func(int, []string)
@@ -80,61 +87,80 @@ func GenerateColors() [][]string {
 }
 
 
-
-
-// Get all valid color types for every piece
-func GeneratePieceTypes(combinations models.CubeCombinatios) models.PieceTypes {
-	var result []string
-	for _, tensor := range combinations {
-		if sum(tensor) % 2 != 0 {
-			result = append(result, "edge")
-		} else if isCenter(tensor) {
-			result = append(result, "center")
+// Now we need to assign the colors properly
+func OrderColors(positions models.CubeCombinatios, types models.PieceTypes, colors models.PieceColors) models.PieceColors {
+	// Empty colors slices array
+	var orderedColors models.PieceColors
+	centerColors := helpers.GetColorsbyLength(colors, 1) 
+	edgeColors := helpers.GetColorsbyLength(colors, 2) 
+	cornerColors := helpers.GetColorsbyLength(colors, 3) 
+	
+	// Assign 
+	for _, t := range types {
+		if t == "center" {
+			orderedColors = append(orderedColors, centerColors[0])
+			slices.Delete(centerColors, 0, 1)
+		} else if t == "corner" {
+			orderedColors = append(orderedColors, cornerColors[0])
+			slices.Delete(cornerColors, 0, 1)
 		} else {
-			result = append(result, "corner")
+			orderedColors = append(orderedColors, edgeColors[0])
+			slices.Delete(edgeColors, 0, 1)
 		}
-	}
-	return result
+	} 
+
+	return orderedColors
 }
 
-// func isOppositeColor(firstColor string, secondColor string) bool {
-
-// }
-
-func isCenter(tensor []int) bool {
-	n := 0
-	for _, v := range tensor {
-		if v == 1 {
-			n++
+// function to swap elements in color tensors slice
+func SwapElements(tensorSlice models.PieceColors, elementsToSwap models.PieceColors) models.PieceColors {
+	// helper func to find element index
+	findIndex := func(slice models.PieceColors, element []string) int {
+		for i, el := range slice {
+			if len(el) == len(element) {
+				match := true // Check piece type
+				for j := range el {
+					if el[j] != element[j] { // Loop to check if is the element we search
+						match = false
+						break
+					}
+					
+				}
+				if match {
+					return i // If is the element return the index of it
+				}
+			}
 		}
+		return -1 // Or not found
 	}
-	if n == 2 {
-		return true
-	} else {
-		return false
+
+	// Find its indices
+	indices := make([]int, len(elementsToSwap))
+	for i, el := range elementsToSwap {
+		indices[i] = findIndex(tensorSlice, el)
 	}
+
+
+	// Perform the swaps
+	if len(indices) == 4 {
+		// Swap in circle
+		temp := tensorSlice[indices[3]]
+		tensorSlice[indices[3]] = tensorSlice[indices[2]]
+        tensorSlice[indices[2]] = tensorSlice[indices[1]]
+        tensorSlice[indices[1]] = tensorSlice[indices[0]]
+        tensorSlice[indices[0]] = temp
+	}
+
+	return tensorSlice
 }
 
-func sum(arr []int) int {
-	sum := 0
-	for _, v := range arr {
-		sum += v
-	}
-	return sum
-}
 
-// Get Color by piece code num
-func GetColor(code int) string {
-	colorMap := map[int]string {
-		0: "W",
-		1: "O",
-		2: "G",
-		3: "R",
-		4: "Y",
-		5: "B",
-	}
-	return colorMap[code]
-}
+
+
+
+
+
+
 
 
 
