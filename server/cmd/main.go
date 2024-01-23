@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 
-	"server/logic/models"
 	"server/logic/routes"
 
 	"github.com/gin-contrib/cors"
@@ -35,13 +34,13 @@ func main() {
 
 
 // Print cube func 
-func printCube(cube models.Cube) models.Cube {
-	for i := 0; i < len(cube); i++ {
-		fmt.Print("\n")
-		for j := 0; j < len(cube[i]); j++ {
-			fmt.Println(cube[i][j])
-		}
-	}
+// func printCube(cube models.Cube) models.Cube {
+// 	for i := 0; i < len(cube); i++ {
+// 		fmt.Print("\n")
+// 		for j := 0; j < len(cube[i]); j++ {
+// 			fmt.Println(cube[i][j])
+// 		}
+// 	}
 
-	return cube
-}
+// 	return cube
+// }

@@ -3,6 +3,7 @@ package helpers
 import (
 	"reflect"
 	"server/logic/models"
+	"slices"
 )
 
 // contains checks if a slice contains a specific string.
@@ -13,6 +14,46 @@ func ContainsColor(slice []string, str string) bool {
         }
     }
     return false
+}
+
+// helper func to find element index
+func FindIndex(wholeCube models.Cube, element []string) int {
+	for i, piece := range wholeCube {
+		if len(piece.Colors) == len(element) {
+			match := true // Check piece type
+			for j := range element {
+				if !slices.Contains(piece.Colors, element[j]) { // Loop to check if slice contains all elements NO MATTER THE ORDER
+					match = false
+					break
+				}
+				
+			}
+			if match {
+				return i // If is the element return the index of it
+			}
+		}
+	}
+	return -1 // Or not found
+}
+
+// helper func to find element index by tensor
+func FindIndexByTensor(cube models.Cube, tensor []int) int {
+	for i, piece := range cube {
+		if len(piece.Tensor) == len(tensor) {
+			match := true // Check piece type
+			for j := range piece.Tensor {
+				if piece.Tensor[j] != tensor[j] { // Loop to check if is the element we search, In tensor The ORDER MATTERS
+					match = false
+					break
+				}
+				
+			}
+			if match {
+				return i // If is the element return the index of it
+			}
+		}
+	}
+	return -1 // Or not found
 }
 
 // Remove Nucleus piece to avoid trauma
@@ -26,6 +67,8 @@ func RemoveNucleus(combinations models.CubeCombinatios) models.CubeCombinatios {
 	}
 	return newSlice
 } 
+
+
 
 func IsCenter(tensor []int) bool {
 	n := 0
