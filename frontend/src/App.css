@@ -1,0 +1,120 @@
+/* App */
+.App {
+  background-color: #22252c;
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+#left-box {
+  padding: 5ch;
+}
+.App-header {
+  font-size: calc(10px + 2vmin);
+  font-weight: 500;
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Components */
+.buttons {
+  margin-top: 3ch;
+  width: 100%;
+}
+
+.buttons > button {
+  padding: 1ch;
+  margin: 1ch;
+  border: none;
+  font-weight: 900;
+  color: white;
+  box-shadow: 4px 4px 0 0 rgba(256, 256, 256, 0.1);
+  width: calc(20px + 2vmin);
+  border-radius: 8px;
+  background-color: rgb(92, 92, 92);
+}
+
+.buttons > button:hover {
+  cursor: pointer;
+}
+
+.buttons > button:active {
+  scale: 95%;
+}
+
+#error-message-component {
+  position: absolute;
+  width: fit-content;
+  top: 4ch;
+  font-size: 1.5ch;
+  right: 4ch;
+  z-index: 2;
+  border-radius: 4px;
+  font-weight: 600;
+  opacity: 90%;
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.3);
+  padding: 1ch;
+  background-color: red;
+  color: white;
+}
+
+/* 3D Model */
+#rubiks-cube-model {
+  position: absolute;
+  padding: 0;
+  top: 0;
+  right: 0;
+}
+
+/* Rubiks Cube */
+/* .rubiks-cube-abstraction {
+  margin-top: -5ch;
+  scale: 70%;
+}
+
+.rubiks-cube-abstraction > div:nth-child(2) {
+  display: flex;
+}
+.rubiks-cube-abstraction > div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.face {
+  display: flex;
+  flex-direction: column;
+  margin: 1ch;
+}
+
+.face-layer {
+  display: flex;
+}
+
+.sticker {
+  width: calc(10px + 2vmin);
+  height: calc(10px + 2vmin);
+  margin: 1ch;
+  border-radius: 5px;
+} */

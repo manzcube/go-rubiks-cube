@@ -1,4 +1,4 @@
-/client/node_modules
+/frontend/node_modules
 server/go.sum
 server/go.mod
 node_modules
