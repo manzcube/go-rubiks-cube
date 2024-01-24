@@ -51,3 +51,4 @@ var CentersColors = PieceColors{
     {"Red"},
     {"Yellow"},
 }
+

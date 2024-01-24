@@ -20,9 +20,20 @@ func RenderCubeTensor() models.Cube {
 	pieceTypes = utils.GeneratePieceTypes(positions)
 
 	// Assign all color combinations to each piece
-	defaultCube := utils.AssignPieceColors(positions, pieceTypes)
-	 
-	return defaultCube // Return default cube state
+	orderedColors := utils.AssignPieceColors(positions, pieceTypes)
+
+	// Create Cube Data Sctructure
+	var cube models.Cube
+	for i, position := range positions {
+		var piece models.Piece
+		piece.Tensor = position
+		piece.PieceType = pieceTypes[i]
+		piece.Colors = orderedColors[i]		
+
+		cube = append(cube, piece)
+	}
+	
+	return cube // Return default cube state
 }
 
 

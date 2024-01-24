@@ -4,7 +4,6 @@ import (
 	"log"
 	"server/logic/helpers"
 	"server/logic/models"
-	"slices"
 )
 
 // Tensor combinations
@@ -56,39 +55,35 @@ func GeneratePieceTypes(combinations models.CubeCombinatios) models.PieceTypes {
 }
 
 // Now we need to assign the colors properly
-func AssignPieceColors(positions models.CubeCombinatios, types models.PieceTypes) models.Cube {
-	// Empty colors slices array
+func AssignPieceColors(positions models.CubeCombinatios, types models.PieceTypes) models.PieceColors {
+	// Empty colors slice
 	var orderedColors models.PieceColors
 
-	centerColors := models.CentersColors
+	// Counters
+	var centerCounter, cornerCounter, edgeCounter int = 0, 0, 0
+
+	// Taking default feed
+	centerColors := models.CentersColors 
 	edgeColors := models.EdgesColors 
 	cornerColors := models.CornersColors
 	
-	// Assign 
+	// Assigning 
 	for _, t := range types {
 		if t == "center" {
-			orderedColors = append(orderedColors, centerColors[0])
-			slices.Delete(centerColors, 0, 1)
+			orderedColors = append(orderedColors, centerColors[centerCounter])
+			centerCounter++
 		} else if t == "corner" {
-			orderedColors = append(orderedColors, cornerColors[0])
-			slices.Delete(cornerColors, 0, 1)
+			orderedColors = append(orderedColors, cornerColors[cornerCounter])
+			cornerCounter++
 		} else {
-			orderedColors = append(orderedColors, edgeColors[0])
-			slices.Delete(edgeColors, 0, 1)
+			orderedColors = append(orderedColors, edgeColors[edgeCounter])
+			edgeCounter++
 		}
 	} 
 
-	// Create Cube Data Sctructure
-	var cube models.Cube
-	for i, position := range positions {
-		var piece models.Piece
-		piece.Tensor = position
-		piece.PieceType = types[i]
-		piece.Colors = orderedColors[i]		
+	// slices.Delete(centerColors, 0, 1) // This func updates the original var in models. Which causes to color problem
 
-		cube = append(cube, piece)
-	}
-	return cube
+	return orderedColors
 }
 
 // function to swap elements in color tensors slice
