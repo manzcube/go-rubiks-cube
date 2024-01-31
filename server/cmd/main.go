@@ -1,8 +1,7 @@
 package main
 
 import (
-	"fmt"
-
+	"log"
 	"server/logic/routes"
 
 	"github.com/gin-contrib/cors"
@@ -22,25 +21,12 @@ func main() {
 
 	// Options
 	router.ForwardedByClientIP = true
-	router.SetTrustedProxies([]string{"127.0.0.1:3000"})
+	router.SetTrustedProxies([]string{"https://rubiks-cube-client.onrender.com/"}) // Client endpoint
 
 	// Register Routes
 	routes.RegisterCubeRoutes(router)
 
 	// Communicate
-	fmt.Printf("GIN server running on port 8080\n")
-	router.Run("localhost:8080")
+	router.Run(":8080")
+	log.Printf("GIN server running on port 8080\n")
 }
-
-
-// Print cube func 
-// func printCube(cube models.Cube) models.Cube {
-// 	for i := 0; i < len(cube); i++ {
-// 		fmt.Print("\n")
-// 		for j := 0; j < len(cube[i]); j++ {
-// 			fmt.Println(cube[i][j])
-// 		}
-// 	}
-
-// 	return cube
-// }

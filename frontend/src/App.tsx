@@ -10,7 +10,7 @@ import Cube from "./components/Cube";
 import Buttons from "./components/Buttons";
 import ErrorBox from "./components/ErrorBox";
 import RubiksCube from "./components/RubiksCube";
-import { Piece } from "./constants/interfaces";
+import { Endpoint, Piece } from "./constants/interfaces";
 
 function App() {
   const [data, setData] = useState<Piece[] | null>(null);
@@ -20,7 +20,7 @@ function App() {
     setErrorMessage("");
     const getAbstraction = async () => {
       try {
-        const response = await fetch("http://localhost:8080/");
+        const response = await fetch(Endpoint);
         if (!response.ok) {
           throw new Error("Network response was not ok..");
         }

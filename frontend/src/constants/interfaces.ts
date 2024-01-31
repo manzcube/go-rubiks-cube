@@ -1,3 +1,4 @@
+import { strict } from "assert";
 import { ReactNode } from "react";
 
 export interface DataProps {
@@ -17,3 +18,7 @@ export interface Piece {
   Colors: string[];
   PieceType: string;
 }
+
+// Endpoint
+export const Endpoint: string =
+  "https://rubiks-cube-server-wpcp.onrender.com/8080/";
