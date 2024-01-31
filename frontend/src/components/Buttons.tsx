@@ -4,7 +4,7 @@ import { ButtonsProps, DataProps, Piece } from "../constants/interfaces";
 import { useError } from "../hooks/useError";
 
 const Buttons: React.FC<ButtonsProps> = ({ data, setData }) => {
-  const BASE_URL = "https://rubiks-cube-server-wpcp.onrender.com/8080/";
+  const BASE_URL = "https://rubiks-cube-server-wpcp.onrender.com/";
   const { setErrorMessage } = useError();
 
   const turn = async (data: Piece[] | null, movement: string) => {
