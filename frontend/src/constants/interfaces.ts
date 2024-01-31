@@ -20,5 +20,4 @@ export interface Piece {
 }
 
 // Endpoint
-export const Endpoint: string =
-  "https://rubiks-cube-server-wpcp.onrender.com/8080/";
+export const Endpoint: string = "https://rubiks-cube-server-wpcp.onrender.com/";
