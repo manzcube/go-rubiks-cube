@@ -11,7 +11,7 @@ type Piece struct {
 type Cube []Piece
 
 // Slices for each prop of Piece on its generation
-type CubeCombinatios [][]int
+type CubeCombinations [][]int
 type PieceTypes []string
 type PieceColors [][]string
 

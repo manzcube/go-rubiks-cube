@@ -26,16 +26,32 @@ func TurnHandler(c *gin.Context) {
 	switch direction {
 	case "r":
 		turnFunc = controllers.TurnR
-	// case "r-prime":
-	// 	turnFunc = controllers.TurnRPrime
-	// case "l":
-	// 	turnFunc = controllers.TurnL
-	// case "l-prime":
-	// 	turnFunc = controllers.TurnLPrime
-	// case "u":
-	// 	turnFunc = controllers.TurnU
-	// case "u-prime":
-	// 	turnFunc = controllers.TurnUPrime
+	case "r-prime":
+		turnFunc = controllers.TurnRPrime
+	case "l":
+		turnFunc = controllers.TurnL
+	case "l-prime":
+		turnFunc = controllers.TurnLPrime
+	case "u":
+		turnFunc = controllers.TurnU
+	case "u-prime":
+		turnFunc = controllers.TurnUPrime
+	case "d":
+		turnFunc = controllers.TurnD
+	case "d-prime":
+		turnFunc = controllers.TurnDPrime
+	case "f":
+		turnFunc = controllers.TurnF
+	case "f-prime":
+		turnFunc = controllers.TurnFPrime
+	case "b":
+		turnFunc = controllers.TurnB
+	case "b-prime":
+		turnFunc = controllers.TurnBPrime
+	case "m":
+		turnFunc = controllers.TurnM
+	case "m-prime":
+		turnFunc = controllers.TurnMPrime
 	default:
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Invalid turn direction"})
 		return

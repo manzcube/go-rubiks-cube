@@ -10,87 +10,33 @@ export const colorMapping: Record<string, number> = {
   Green: 0x47e747, // Green
 };
 
-const getPieceOrderedColorFaces = (piece: Piece) => {
+export const getColoredFaces = (piece: Piece) => {
   // This array will contain 6 MeshBasicMaterial for 6 single cube faces
   let pieceFaces = [];
 
-  // Fill with default color
-  for (let i = 0; i < 6; i++) {
-    pieceFaces.push(new THREE.MeshBasicMaterial({ color: 0x000000 }));
-  }
-
-  // HERE IS WHERE THE MAGIC OCCURS
+  // Centers
   if (piece.PieceType === "center") {
-    // For centers
     for (let i = 0; i < 6; i++) {
       pieceFaces[i] = new THREE.MeshBasicMaterial({
         color: colorMapping[piece.Colors[0]],
       });
     }
     return pieceFaces;
-  } else if (piece.PieceType === "corner") {
-    // For corners
-    let newTensor;
-    if (piece.Tensor[0] === 0) {
-      newTensor =
-        piece.Tensor[1] + piece.Tensor[2] === 0
-          ? [1, 3, 5]
-          : piece.Tensor[1] + piece.Tensor[2] === 4
-          ? [1, 2, 4]
-          : piece.Tensor[1] === 2
-          ? [1, 5, 2]
-          : [1, 4, 3];
-    } else {
-      newTensor =
-        piece.Tensor[1] + piece.Tensor[2] === 0
-          ? [0, 5, 3]
-          : piece.Tensor[1] + piece.Tensor[2] === 4
-          ? [0, 4, 2]
-          : piece.Tensor[1] === 2
-          ? [0, 2, 5]
-          : [0, 3, 4];
-    }
 
+    // Corners, which have combination [0, 2, 5] for THREEjs to display the correct color order (top, front, left)
+  } else if (piece.PieceType === "corner") {
+    const cornerCombination = [0, 2, 5];
     for (let i = 0; i < 3; i++) {
-      pieceFaces[newTensor[i]] = new THREE.MeshBasicMaterial({
+      pieceFaces[cornerCombination[i]] = new THREE.MeshBasicMaterial({
         color: colorMapping[piece.Colors[i]],
       });
     }
     return pieceFaces;
-  } else {
-    // For edges
-    let newTensor;
-    if (piece.Tensor[0] === 0) {
-      newTensor =
-        piece.Tensor[0] + piece.Tensor[1] === 0
-          ? [1, 3]
-          : piece.Tensor[0] + piece.Tensor[1] === 2
-          ? [1, 2]
-          : piece.Tensor[2] === 2
-          ? [1, 4]
-          : [1, 5];
-    } else if (piece.Tensor[0] === 1) {
-      newTensor =
-        piece.Tensor[1] + piece.Tensor[2] === 0
-          ? [3, 5]
-          : piece.Tensor[1] + piece.Tensor[2] === 4
-          ? [2, 4]
-          : piece.Tensor[1] === 2
-          ? [2, 5]
-          : [3, 4];
-    } else {
-      newTensor =
-        piece.Tensor[0] + piece.Tensor[1] === 2
-          ? [0, 3]
-          : piece.Tensor[0] + piece.Tensor[1] === 4
-          ? [0, 2]
-          : piece.Tensor[2] === 2
-          ? [0, 4]
-          : [0, 5];
-    }
 
+    // Edges, just need [0, 2] representing (top, front) of Threejs cube
+  } else {
     for (let i = 0; i < 2; i++) {
-      pieceFaces[newTensor[i]] = new THREE.MeshBasicMaterial({
+      pieceFaces[i * 2] = new THREE.MeshBasicMaterial({
         color: colorMapping[piece.Colors[i]],
       });
     }
@@ -98,4 +44,72 @@ const getPieceOrderedColorFaces = (piece: Piece) => {
   }
 };
 
-export default getPieceOrderedColorFaces;
+export const getRotationFromTensor = (tensor: number[], type: string) => {
+  // CORNERS
+  if (type === "corner") {
+    if (tensor[0] === 0) {
+      // With white
+      const middleTwo = tensor[1] === 2;
+      let rotation =
+        tensor[2] === 0
+          ? middleTwo
+            ? Math.PI / (2 / 3)
+            : Math.PI
+          : middleTwo
+          ? 0
+          : Math.PI / 2;
+      return { x: rotation, y: Math.PI, z: 0 };
+    } else {
+      // With yellow
+      const middleTwo = tensor[1] === 2;
+      let rotation =
+        tensor[2] === 0
+          ? middleTwo
+            ? 0
+            : Math.PI / (2 / 3)
+          : middleTwo
+          ? Math.PI / 2
+          : Math.PI;
+      return { x: rotation, y: 0, z: 0 };
+    }
+    // EDGES
+  } else {
+    if (tensor[0] === 0) {
+      // With white
+      let rotation =
+        tensor[2] === 1
+          ? tensor[1] === 0
+            ? Math.PI
+            : 0
+          : tensor[2] === 0
+          ? Math.PI / (2 / 3)
+          : Math.PI / 2;
+      return { x: rotation, y: Math.PI, z: 0 };
+    } else if (tensor[0] === 2) {
+      // With yellow
+      let rotation =
+        tensor[2] === 1
+          ? tensor[1] === 0
+            ? Math.PI
+            : 0
+          : tensor[2] === 0
+          ? Math.PI / (2 / 3)
+          : Math.PI / 2;
+      return { x: rotation, y: 0, z: 0 };
+    } else {
+      // 4 middle edges
+      return {
+        x: tensor[1] === 2 ? 0 : Math.PI,
+        y:
+          tensor[2] === 2
+            ? tensor[1] === 0
+              ? Math.PI / (2 / 3)
+              : Math.PI / 2
+            : tensor[1] === 0
+            ? Math.PI / 2
+            : Math.PI / (2 / 3),
+        z: Math.PI / 2,
+      };
+    }
+  }
+};

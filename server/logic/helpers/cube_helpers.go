@@ -57,7 +57,7 @@ func FindIndexByTensor(cube models.Cube, tensor []int) int {
 }
 
 // Remove Nucleus piece to avoid trauma
-func RemoveNucleus(combinations models.CubeCombinatios) models.CubeCombinatios {
+func RemoveNucleus(combinations models.CubeCombinations) models.CubeCombinations {
 	var newSlice [][]int
 	nucleus := []int{1, 1, 1}
 	for _, v := range combinations {
@@ -68,6 +68,51 @@ func RemoveNucleus(combinations models.CubeCombinatios) models.CubeCombinatios {
 	return newSlice
 } 
 
+
+// Slices contains
+func Contains(slices [][]int, element []int) bool {
+	for _, slice := range slices {
+		if len(slice) == len(element) {
+			match := true
+			for i, value := range slice {
+				if value != element[i] {
+					match = false
+					break
+				}
+			}
+			if match {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func Index(slices [][]int, element []int) int {
+	for i, slice := range slices {
+		if len(slice) == len(element) {
+			match := true
+			for i, value := range slice {
+				if value != element[i] {
+					match = false
+					break
+				}
+			}
+			if match {
+				return i
+			}
+		}
+	}
+	return -1
+}
+
+func GetDirectionBool(index int, direction bool) bool {
+	if direction {
+		return index % 2 == 0
+	} else {
+		return index % 2 != 0
+	}
+}
 
 
 func IsCenter(tensor []int) bool {

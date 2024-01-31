@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"log"
 	"server/logic/helpers"
 	"server/logic/models"
 )
@@ -40,7 +39,7 @@ func GenerateCombinations(n int) [][]int {
 
 
 // Get all valid color types for every piece
-func GeneratePieceTypes(combinations models.CubeCombinatios) models.PieceTypes {
+func GeneratePieceTypes(combinations models.CubeCombinations) models.PieceTypes {
 	var result []string
 	for _, tensor := range combinations {
 		if helpers.Sum(tensor) % 2 != 0 {
@@ -55,7 +54,7 @@ func GeneratePieceTypes(combinations models.CubeCombinatios) models.PieceTypes {
 }
 
 // Now we need to assign the colors properly
-func AssignPieceColors(positions models.CubeCombinatios, types models.PieceTypes) models.PieceColors {
+func AssignPieceColors(positions models.CubeCombinations, types models.PieceTypes) models.PieceColors {
 	// Empty colors slice
 	var orderedColors models.PieceColors
 
@@ -93,7 +92,6 @@ func SwapCubeElements(cube models.Cube, indices []int) models.Cube {
 	temp := cube[indices[len(indices) - 1]].Colors
 
 	// Loop over the middle elements
-	log.Println("INDICES ", indices)
 	for i := len(indices) - 1; i > 0; i-- {
 		cube[indices[i]].Colors = cube[indices[i - 1]].Colors				 
 	}
@@ -103,6 +101,45 @@ func SwapCubeElements(cube models.Cube, indices []int) models.Cube {
 	// Return new cube
 	return cube
 }
+
+// Get piece rotated
+func GetPiecesRotated(cube models.Cube, cornersToSwap models.CubeCombinations, edgesToSwap models.CubeCombinations, direction bool, axis bool) models.Cube {
+	for i := range cube {
+		piece := &cube[i] // In this way we get a reference to the slice element
+		if piece.PieceType == "corner" {
+			var index int = helpers.Index(cornersToSwap, piece.Tensor)
+			if helpers.Contains(cornersToSwap, piece.Tensor) && index != -1 {
+				var newColorSlice []string
+				if helpers.GetDirectionBool(index, direction) { // Rotate clockwise
+					newColorSlice = append(piece.Colors[1:], piece.Colors[0])
+					piece.Colors = newColorSlice										
+				} else { // Rotate counterclockwise
+					newColorSlice = append(piece.Colors[len(piece.Colors) - 1:], piece.Colors[:len(piece.Colors) - 1]...)
+					piece.Colors = newColorSlice
+				}
+			}
+		} else if piece.PieceType == "edge" {
+			if helpers.Contains(edgesToSwap, piece.Tensor) && axis {
+				piece.Colors[0], piece.Colors[1] = piece.Colors[1], piece.Colors[0]
+			}
+		} 
+	}
+	return cube
+}
+
+// Get piece rotated
+func GetEdgesRotated(cube models.Cube, edges models.CubeCombinations) models.Cube {
+	for i := range cube {
+		piece := &cube[i] // In this way we get a reference to the slice element
+		if piece.PieceType == "edge" {
+			if helpers.Contains(edges, piece.Tensor) {
+				piece.Colors[0], piece.Colors[1] = piece.Colors[1], piece.Colors[0]
+			}
+		} 
+	}
+	return cube
+}
+
 
 
 

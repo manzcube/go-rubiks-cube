@@ -11,7 +11,7 @@ import (
 // Render default Cube Data Structure
 func RenderCubeTensor() models.Cube {
 	// Render all combinatios pieces positions
-	var combinations, positions models.CubeCombinatios
+	var combinations, positions models.CubeCombinations
 	combinations = utils.GenerateCombinations(3) 
 	positions = helpers.RemoveNucleus(combinations)
 
@@ -42,18 +42,186 @@ func RenderCubeTensor() models.Cube {
 
 // Turn R
 func TurnR(cube models.Cube) models.Cube {
+	var turnedCube models.Cube
+
 	// ElementsToSwap has to access color slices by tensor values
-	var cornersToSwap = models.CubeCombinatios { // HEre I should automize a func to take all pieces of that layer the user wants to turn, then swap by Type
+	var cornersToSwap = models.CubeCombinations { // HEre I should automize a func to take all pieces of that layer the user wants to turn, then swap by Type
 		{0, 2, 2},
 		{0, 2, 0},
 		{2, 2, 0},
 		{2, 2, 2},
 	}
-	var edgesToSwap = models.CubeCombinatios {
+	var edgesToSwap = models.CubeCombinations {
 		{0, 2, 1},
 		{1, 2, 0},
 		{2, 2, 1},
 		{1, 2, 2},
+	}
+	// Find corner indices
+	cornerindices := make([]int, len(cornersToSwap))
+	for i, el := range cornersToSwap {
+		cornerindices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	// Find edges indices
+	edgesIndices := make([]int, len(edgesToSwap))
+	for i, el := range edgesToSwap {
+		edgesIndices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	if (len(cornerindices) == len(cornersToSwap)) && (len(edgesIndices) == len(edgesToSwap))  {
+		// Perform the swap
+		newCornersCube := utils.SwapCubeElements(cube, cornerindices)
+		newEdgesCube := utils.SwapCubeElements(newCornersCube, edgesIndices)
+
+		// Return turned cube to the client
+		turnedCube = newEdgesCube
+	}
+
+	// Rotate color slices to for appropiate turn
+	rotatedCube := utils.GetPiecesRotated(turnedCube, cornersToSwap, edgesToSwap, true, true)
+
+	return rotatedCube
+}
+
+// Turn R prime
+func TurnRPrime(cube models.Cube) models.Cube {
+	var turnedCube models.Cube
+
+	// ElementsToSwap has to access color slices by tensor values
+	var cornersToSwap = models.CubeCombinations { // HEre I should automize a func to take all pieces of that layer the user wants to turn, then swap by Type
+		{2, 2, 2},
+		{2, 2, 0},
+		{0, 2, 0},
+		{0, 2, 2},
+	}
+	var edgesToSwap = models.CubeCombinations {
+		{1, 2, 2},
+		{2, 2, 1},
+		{1, 2, 0},
+		{0, 2, 1},
+	}
+	// Find its corner indices
+	cornerindices := make([]int, len(cornersToSwap))
+	for i, el := range cornersToSwap {
+		cornerindices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	// Find its edges indices
+	edgesIndices := make([]int, len(edgesToSwap))
+	for i, el := range edgesToSwap {
+		edgesIndices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	if (len(cornerindices) == len(cornersToSwap)) && (len(edgesIndices) == len(edgesToSwap))  {
+		// Perform the swap
+		newCornersCube := utils.SwapCubeElements(cube, cornerindices)
+		newEdgesCube := utils.SwapCubeElements(newCornersCube, edgesIndices)
+
+		// Return turned  cube to the client
+		turnedCube = newEdgesCube
+	}
+
+	// Rotate color slices to for appropiate turn
+	rotatedCube := utils.GetPiecesRotated(turnedCube, cornersToSwap, edgesToSwap, false, true)
+
+	return rotatedCube
+}
+
+// Turn L
+func TurnL(cube models.Cube) models.Cube {
+	var turnedCube models.Cube
+
+	// ElementsToSwap has to access color slices by tensor values
+	var cornersToSwap = models.CubeCombinations { // HEre I should automize a func to take all pieces of that layer the user wants to turn, then swap by Type
+		{0, 0, 0},
+		{0, 0, 2},
+		{2, 0, 2},
+		{2, 0, 0},
+	}
+	var edgesToSwap = models.CubeCombinations {
+		{0, 0, 1},
+		{1, 0, 2},
+		{2, 0, 1},
+		{1, 0, 0},
+	}
+	// Find corner indices
+	cornerindices := make([]int, len(cornersToSwap))
+	for i, el := range cornersToSwap {
+		cornerindices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	// Find edges indices
+	edgesIndices := make([]int, len(edgesToSwap))
+	for i, el := range edgesToSwap {
+		edgesIndices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	if (len(cornerindices) == len(cornersToSwap)) && (len(edgesIndices) == len(edgesToSwap))  {
+		// Perform the swap
+		newCornersCube := utils.SwapCubeElements(cube, cornerindices)
+		newEdgesCube := utils.SwapCubeElements(newCornersCube, edgesIndices)
+
+		// Return turned cube to the client
+		turnedCube = newEdgesCube
+	}
+
+	// Rotate color slices to for appropiate turn
+	rotatedCube := utils.GetPiecesRotated(turnedCube, cornersToSwap, edgesToSwap, true, true)
+
+	return rotatedCube
+}
+
+// Turn L prime
+func TurnLPrime(cube models.Cube) models.Cube {
+	var turnedCube models.Cube
+
+	// ElementsToSwap has to access color slices by tensor values
+	var cornersToSwap = models.CubeCombinations { 
+		{2, 0, 0},
+		{2, 0, 2},
+		{0, 0, 2},
+		{0, 0, 0},
+	}
+	var edgesToSwap = models.CubeCombinations {
+		{1, 0, 0},
+		{2, 0, 1},
+		{1, 0, 2},
+		{0, 0, 1},
+	}
+	// Find its corner indices
+	cornerindices := make([]int, len(cornersToSwap))
+	for i, el := range cornersToSwap {
+		cornerindices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	// Find its edges indices
+	edgesIndices := make([]int, len(edgesToSwap))
+	for i, el := range edgesToSwap {
+		edgesIndices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	if (len(cornerindices) == len(cornersToSwap)) && (len(edgesIndices) == len(edgesToSwap))  {
+		// Perform the swap
+		newCornersCube := utils.SwapCubeElements(cube, cornerindices)
+		newEdgesCube := utils.SwapCubeElements(newCornersCube, edgesIndices)
+
+		// Return turned  cube to the client
+		turnedCube = newEdgesCube
+	}
+
+	// Rotate color slices to for appropiate turn
+	rotatedCube := utils.GetPiecesRotated(turnedCube, cornersToSwap, edgesToSwap, false, true)
+
+	return rotatedCube
+}
+
+// Turn U
+func TurnU(cube models.Cube) models.Cube {
+	// ElementsToSwap has to access color slices by tensor values
+	var cornersToSwap = models.CubeCombinations { // HEre I should automize a func to take all pieces of that layer the user wants to turn, then swap by Type
+		{0, 0, 0},
+		{0, 2, 0},
+		{0, 2, 2},
+		{0, 0, 2},
+	}
+	var edgesToSwap = models.CubeCombinations {
+		{0, 0, 1},
+		{0, 1, 0},
+		{0, 2, 1},
+		{0, 1, 2},
 	}
 	// Find its corner indices
 	cornerindices := make([]int, len(cornersToSwap))
@@ -76,83 +244,369 @@ func TurnR(cube models.Cube) models.Cube {
 
 	return cube
 }
+
+// Turn U prime
+func TurnUPrime(cube models.Cube) models.Cube {
+	// ElementsToSwap has to access color slices by tensor values
+	var cornersToSwap = models.CubeCombinations { // HEre I should automize a func to take all pieces of that layer the user wants to turn, then swap by Type
+		{0, 0, 2},
+		{0, 2, 2},
+		{0, 2, 0},
+		{0, 0, 0},
+	}
+	var edgesToSwap = models.CubeCombinations {
+		{0, 1, 2},
+		{0, 2, 1},
+		{0, 1, 0},
+		{0, 0, 1},		
+	}
+
+	// Find its corner indices
+	cornerindices := make([]int, len(cornersToSwap))
+	for i, el := range cornersToSwap {
+		cornerindices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	// Find its edges indices
+	edgesIndices := make([]int, len(edgesToSwap))
+	for i, el := range edgesToSwap {
+		edgesIndices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	if (len(cornerindices) == len(cornersToSwap)) && (len(edgesIndices) == len(edgesToSwap))  {
+		// Perform the swap
+		newCornersCube := utils.SwapCubeElements(cube, cornerindices)
+		newEdgesCube := utils.SwapCubeElements(newCornersCube, edgesIndices)
+
+		// Return turned  cube to the client
+		return newEdgesCube
+	}
+
+	return cube
+}
+
+// Turn D
+func TurnD(cube models.Cube) models.Cube {
+	// ElementsToSwap has to access color slices by tensor values
+	var cornersToSwap = models.CubeCombinations { // HEre I should automize a func to take all pieces of that layer the user wants to turn, then swap by Type
+		{2, 0, 2},
+		{2, 2, 2},
+		{2, 2, 0},
+		{2, 0, 0},
+	}
+	var edgesToSwap = models.CubeCombinations {
+		{2, 1, 2},
+		{2, 2, 1},
+		{2, 1, 0},
+		{2, 0, 1},		
+	}
+	// Find its corner indices
+	cornerindices := make([]int, len(cornersToSwap))
+	for i, el := range cornersToSwap {
+		cornerindices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	// Find its edges indices
+	edgesIndices := make([]int, len(edgesToSwap))
+	for i, el := range edgesToSwap {
+		edgesIndices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	if (len(cornerindices) == len(cornersToSwap)) && (len(edgesIndices) == len(edgesToSwap))  {
+		// Perform the swap
+		newCornersCube := utils.SwapCubeElements(cube, cornerindices)
+		newEdgesCube := utils.SwapCubeElements(newCornersCube, edgesIndices)
+
+		// Return turned  cube to the client
+		return newEdgesCube
+	}
+
+	return cube
+}
+
+// Turn D prime
+func TurnDPrime(cube models.Cube) models.Cube {
+	// ElementsToSwap has to access color slices by tensor values
+	var cornersToSwap = models.CubeCombinations { // HEre I should automize a func to take all pieces of that layer the user wants to turn, then swap by Type
+		{2, 0, 0},
+		{2, 2, 0},
+		{2, 2, 2},
+		{2, 0, 2},
+	}
+	var edgesToSwap = models.CubeCombinations {
+		{2, 0, 1},
+		{2, 1, 0},
+		{2, 2, 1},
+		{2, 1, 2},
+	}
+	// Find its corner indices
+	cornerindices := make([]int, len(cornersToSwap))
+	for i, el := range cornersToSwap {
+		cornerindices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	// Find its edges indices
+	edgesIndices := make([]int, len(edgesToSwap))
+	for i, el := range edgesToSwap {
+		edgesIndices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	if (len(cornerindices) == len(cornersToSwap)) && (len(edgesIndices) == len(edgesToSwap))  {
+		// Perform the swap
+		newCornersCube := utils.SwapCubeElements(cube, cornerindices)
+		newEdgesCube := utils.SwapCubeElements(newCornersCube, edgesIndices)
+
+		// Return turned  cube to the client
+		return newEdgesCube
+	}
+
+	return cube
+}
+
  
-// // Turn R Prime
-// func TurnRPrime(cube models.Cube) models.Cube {
-// 	// We create a new Cube object
-// 	newCube := cube
+// Turn F
+func TurnF(cube models.Cube) models.Cube {
+	var turnedCube models.Cube
 
-// 	// Set colors
-// 	for face := 0; face < 6; face++ {
-// 		if face != 1 && face != 3 {
-// 			for row := 0; row < 3; row++ {
-// 				newCube[face][row][2] = cube[utils.GetFaceForVerticalTurnCounterClockwise(face)][row][2]
-// 			}
-// 		}
-// 	}
-// 	return newCube
-// }
+	// ElementsToSwap has to access color slices by tensor values
+	var cornersToSwap = models.CubeCombinations { // HEre I should automize a func to take all pieces of that layer the user wants to turn, then swap by Type
+		{0, 0, 2},
+		{0, 2, 2},
+		{2, 2, 2},
+		{2, 0, 2},
+	}
+	var edgesToSwap = models.CubeCombinations {
+		{0, 1, 2},
+		{1, 2, 2},
+		{2, 1, 2},
+		{1, 0, 2},
+	}
+	// Find corner indices
+	cornerindices := make([]int, len(cornersToSwap))
+	for i, el := range cornersToSwap {
+		cornerindices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	// Find edges indices
+	edgesIndices := make([]int, len(edgesToSwap))
+	for i, el := range edgesToSwap {
+		edgesIndices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	if (len(cornerindices) == len(cornersToSwap)) && (len(edgesIndices) == len(edgesToSwap))  {
+		// Perform the swap
+		newCornersCube := utils.SwapCubeElements(cube, cornerindices)
+		newEdgesCube := utils.SwapCubeElements(newCornersCube, edgesIndices)
 
-// // Turn L
-// func TurnL(cube models.Cube) models.Cube {
-// 	// We create a new Cube object instance
-// 	newCube := cube
+		// Return turned cube to the client
+		turnedCube = newEdgesCube
+	}
 
-// 	// Perfom the turn
-// 	for face := 0; face < 6; face++ {
-// 		if face != 1 && face != 3 {
-// 			for row := 0; row < 3; row++ {
-// 				newCube[face][row][0] = cube[utils.GetFaceForVerticalTurnCounterClockwise(face)][row][0]
-// 			}
-// 		}
-// 	}
-// 	return newCube
-// }
+	// Rotate color slices to for appropiate turn
+	rotatedCube := utils.GetPiecesRotated(turnedCube, cornersToSwap, edgesToSwap, true, false)
 
-// // Turn L Prime
-// func TurnLPrime(cube models.Cube) models.Cube {
-// 	// We create a new Cube object
-// 	newCube := cube
+	return rotatedCube
+}
 
-// 	// Set colors
-// 	for face := 0; face < 6; face++ {
-// 		if face != 1 && face != 3 {
-// 			for row := 0; row < 3; row++ {
-// 				newCube[face][row][0] = cube[utils.GetFaceForVerticalTurnClockwise(face)][row][0]
-// 			}
-// 		}
-// 	}
-// 	return newCube
-// }
+// Turn F prime
+func TurnFPrime(cube models.Cube) models.Cube {
+	var turnedCube models.Cube
 
-// // Turn U
-// func TurnU(cube models.Cube) models.Cube {
-// 	// We create a new Cube object instance
-// 	newCube := cube
+	// ElementsToSwap has to access color slices by tensor values
+	var cornersToSwap = models.CubeCombinations { // HEre I should automize a func to take all pieces of that layer the user wants to turn, then swap by Type
+		{2, 0, 2},
+		{2, 2, 2},
+		{0, 2, 2},
+		{0, 0, 2},
+	}
+	var edgesToSwap = models.CubeCombinations {
+		{1, 0, 2},
+		{2, 1, 2},
+		{1, 2, 2},
+		{0, 1, 2},
+	}
+	// Find its corner indices
+	cornerindices := make([]int, len(cornersToSwap))
+	for i, el := range cornersToSwap {
+		cornerindices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	// Find its edges indices
+	edgesIndices := make([]int, len(edgesToSwap))
+	for i, el := range edgesToSwap {
+		edgesIndices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	if (len(cornerindices) == len(cornersToSwap)) && (len(edgesIndices) == len(edgesToSwap))  {
+		// Perform the swap
+		newCornersCube := utils.SwapCubeElements(cube, cornerindices)
+		newEdgesCube := utils.SwapCubeElements(newCornersCube, edgesIndices)
 
-// 	// Perfom the turn
-// 	for face := 0; face < 6; face++ {
-// 		if face != 0 && face != 4 {
-// 			for row := 0; row < 3; row++ {
-// 				newCube[face][0][row] = cube[utils.GetFaceForHorizontalTurnCounterClockwise(face)][0][row]
-// 			}
-// 		}
-// 	}
-// 	return newCube
-// }
+		// Return turned  cube to the client
+		turnedCube = newEdgesCube
+	}
 
-// // Turn U Prime
-// func TurnUPrime(cube models.Cube) models.Cube {
-// 	// We create a new Cube object
-// 	newCube := cube
+	// Rotate color slices to for appropiate turn
+	rotatedCube := utils.GetPiecesRotated(turnedCube, cornersToSwap, edgesToSwap, false, false)
 
-// 	// Set colors
-// 	for face := 0; face < 6; face++ {
-// 		if face != 0 && face != 4 {
-// 			for row := 0; row < 3; row++ {
-// 				newCube[face][0][row] = cube[utils.GetFaceForHorizontalTurnClockwise(face)][0][row]
-// 			}
-// 		}
-// 	}
-// 	return newCube
-// }
+	return rotatedCube
+}
+
+// Turn B
+func TurnB(cube models.Cube) models.Cube {
+	var turnedCube models.Cube
+
+	// ElementsToSwap has to access color slices by tensor values
+	
+	var cornersToSwap = models.CubeCombinations { // HEre I should automize a func to take all pieces of that layer the user wants to turn, then swap by Type
+		{2, 0, 0},
+		{2, 2, 0},
+		{0, 2, 0},
+		{0, 0, 0},
+	}
+	var edgesToSwap = models.CubeCombinations {
+		{1, 0, 0},
+		{2, 1, 0},
+		{1, 2, 0},
+		{0, 1, 0},
+	}
+	// Find corner indices
+	cornerindices := make([]int, len(cornersToSwap))
+	for i, el := range cornersToSwap {
+		cornerindices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	// Find edges indices
+	edgesIndices := make([]int, len(edgesToSwap))
+	for i, el := range edgesToSwap {
+		edgesIndices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	if (len(cornerindices) == len(cornersToSwap)) && (len(edgesIndices) == len(edgesToSwap))  {
+		// Perform the swap
+		newCornersCube := utils.SwapCubeElements(cube, cornerindices)
+		newEdgesCube := utils.SwapCubeElements(newCornersCube, edgesIndices)
+
+		// Return turned cube to the client
+		turnedCube = newEdgesCube
+	}
+
+	// Rotate color slices to for appropiate turn
+	rotatedCube := utils.GetPiecesRotated(turnedCube, cornersToSwap, edgesToSwap, true, false)
+
+	return rotatedCube
+}
+
+// Turn B prime
+func TurnBPrime(cube models.Cube) models.Cube {
+	var turnedCube models.Cube
+
+	// ElementsToSwap has to access color slices by tensor values
+	var cornersToSwap = models.CubeCombinations { // HEre I should automize a func to take all pieces of that layer the user wants to turn, then swap by Type
+		{0, 0, 0},
+		{0, 2, 0},
+		{2, 2, 0},
+		{2, 0, 0},
+	}
+	var edgesToSwap = models.CubeCombinations {
+		{0, 1, 0},
+		{1, 2, 0},
+		{2, 1, 0},
+		{1, 0, 0},
+	}
+	// Find its corner indices
+	cornerindices := make([]int, len(cornersToSwap))
+	for i, el := range cornersToSwap {
+		cornerindices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	// Find its edges indices
+	edgesIndices := make([]int, len(edgesToSwap))
+	for i, el := range edgesToSwap {
+		edgesIndices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	if (len(cornerindices) == len(cornersToSwap)) && (len(edgesIndices) == len(edgesToSwap))  {
+		// Perform the swap
+		newCornersCube := utils.SwapCubeElements(cube, cornerindices)
+		newEdgesCube := utils.SwapCubeElements(newCornersCube, edgesIndices)
+
+		// Return turned  cube to the client
+		turnedCube = newEdgesCube
+	}
+
+	// Rotate color slices to for appropiate turn
+	rotatedCube := utils.GetPiecesRotated(turnedCube, cornersToSwap, edgesToSwap, false, false)
+
+	return rotatedCube
+}
+
+// Turn M
+func TurnM(cube models.Cube) models.Cube {
+	var turnedCube models.Cube
+
+	// ElementsToSwap has to access color slices by tensor values
+	var centersToSwap = models.CubeCombinations { // HEre I should automize a func to take all pieces of that layer the user wants to turn, then swap by Type
+		{0, 1, 1},
+		{1, 1, 0},
+		{2, 1, 1},
+		{1, 1, 2},
+	}
+	var edgesToSwap = models.CubeCombinations {
+		{0, 1, 0},
+		{2, 1, 0},
+		{2, 1, 2},
+		{0, 1, 2},
+	}
+	// Find corner indices
+	centerIndices := make([]int, len(centersToSwap))
+	for i, el := range centersToSwap {
+		centerIndices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	// Find edges indices
+	edgesIndices := make([]int, len(edgesToSwap))
+	for i, el := range edgesToSwap {
+		edgesIndices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	if (len(centerIndices) == len(centersToSwap)) && (len(edgesIndices) == len(edgesToSwap))  {
+		// Perform the swap
+		newEdgesCube := utils.SwapCubeElements(cube, edgesIndices)
+		newCentersCube := utils.SwapCubeElements(newEdgesCube, centerIndices)
+
+		// Return turned cube to the client
+		turnedCube = newCentersCube
+	}
+
+	// Edge rotation
+	rotatedCube := utils.GetEdgesRotated(turnedCube, edgesToSwap)
+
+	return rotatedCube
+}
+
+// Turn M prime
+func TurnMPrime(cube models.Cube) models.Cube {
+	var turnedCube models.Cube
+
+	// ElementsToSwap has to access color slices by tensor values
+	var centersToSwap = models.CubeCombinations { // HEre I should automize a func to take all pieces of that layer the user wants to turn, then swap by Type
+		{1, 1, 2},
+		{2, 1, 1},
+		{1, 1, 0},
+		{0, 1, 1},
+	}
+	var edgesToSwap = models.CubeCombinations {
+		{0, 1, 2},
+		{2, 1, 2},
+		{2, 1, 0},
+		{0, 1, 0},
+	}
+	// Find corner indices
+	centerIndices := make([]int, len(centersToSwap))
+	for i, el := range centersToSwap {
+		centerIndices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	// Find edges indices
+	edgesIndices := make([]int, len(edgesToSwap))
+	for i, el := range edgesToSwap {
+		edgesIndices[i] = helpers.FindIndexByTensor(cube, el)
+	}
+	if (len(centerIndices) == len(centersToSwap)) && (len(edgesIndices) == len(edgesToSwap))  {
+		// Perform the swap
+		newEdgesCube := utils.SwapCubeElements(cube, edgesIndices)
+		newCentersCube := utils.SwapCubeElements(newEdgesCube, centerIndices)
+
+		// Return turned cube to the client
+		turnedCube = newCentersCube
+	}
+
+	// Edge rotation
+	rotatedCube := utils.GetEdgesRotated(turnedCube, edgesToSwap)
+
+	return rotatedCube
+}

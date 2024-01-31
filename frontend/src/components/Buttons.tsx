@@ -8,6 +8,7 @@ const Buttons: React.FC<ButtonsProps> = ({ data, setData }) => {
   const { setErrorMessage } = useError();
 
   const turn = async (data: Piece[] | null, movement: string) => {
+    console.log("TURNING CUBE");
     try {
       const response = await fetch(`${BASE_URL}/turn/${movement}`, {
         method: "POST",
@@ -39,6 +40,14 @@ const Buttons: React.FC<ButtonsProps> = ({ data, setData }) => {
       <button onClick={() => turn(data, "l-prime")}>L'</button>
       <button onClick={() => turn(data, "u")}>U</button>
       <button onClick={() => turn(data, "u-prime")}>U'</button>
+      <button onClick={() => turn(data, "d")}>D</button>
+      <button onClick={() => turn(data, "d-prime")}>D'</button>
+      <button onClick={() => turn(data, "f")}>F</button>
+      <button onClick={() => turn(data, "f-prime")}>F'</button>
+      <button onClick={() => turn(data, "b")}>B</button>
+      <button onClick={() => turn(data, "b-prime")}>B'</button>
+      <button onClick={() => turn(data, "m")}>M</button>
+      <button onClick={() => turn(data, "m-prime")}>M'</button>
     </div>
   );
 };
