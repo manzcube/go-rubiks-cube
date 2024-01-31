@@ -49,9 +49,9 @@ const RubiksCube: React.FC<{ cubeData: Piece[] | null }> = ({ cubeData }) => {
         // Create each cube
         const cube = new THREE.Mesh(geometry, pieceFaces);
         cube.position.set(
-          piece.Tensor[0] * (cubeSize + 0.1),
-          piece.Tensor[1] * (cubeSize + 0.1),
-          piece.Tensor[2] * (cubeSize + 0.1)
+          piece.Tensor[0] * (cubeSize + 0),
+          piece.Tensor[1] * (cubeSize + 0),
+          piece.Tensor[2] * (cubeSize + 0)
         );
 
         // Determine rotation
