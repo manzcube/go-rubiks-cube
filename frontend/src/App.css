@@ -102,6 +102,7 @@
   display: flex;
   justify-content: center;
 }
+*/
 .face {
   display: flex;
   flex-direction: column;
@@ -117,4 +118,4 @@
   height: calc(10px + 2vmin);
   margin: 1ch;
   border-radius: 5px;
-} */
+}

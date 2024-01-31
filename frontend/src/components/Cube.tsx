@@ -9,10 +9,10 @@ import { DataProps } from "../constants/interfaces";
 const Cube: React.FC<DataProps> = ({ data }) => {
   return data ? (
     <div className="rubiks-cube-abstraction">
-      {/* <div>
-        <Face face={data[0]} />
-      </div>
       <div>
+        <Face face={data} />
+      </div>
+      {/*<div>
         <Face face={data[1]} />
         <Face face={data[2]} />
         <Face face={data[3]} />

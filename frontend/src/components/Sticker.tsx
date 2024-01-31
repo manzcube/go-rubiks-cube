@@ -1,17 +1,18 @@
 import React from "react";
+
 const getColor = (symbol: string) => {
   switch (symbol) {
-    case "W":
+    case "White":
       return "bg-white";
-    case "Y":
+    case "Yellow":
       return "bg-yellow";
-    case "G":
+    case "Green":
       return "bg-green";
-    case "B":
+    case "Blue":
       return "bg-blue";
-    case "R":
+    case "Red":
       return "bg-red";
-    case "O":
+    case "Orange":
       return "bg-orange";
   }
 };

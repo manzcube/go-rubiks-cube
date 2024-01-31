@@ -1,21 +1,21 @@
 import React from "react";
 import Sticker from "./Sticker";
+import { Piece } from "../constants/interfaces";
 
 interface Face {
-  face: string[];
+  face: Piece[];
 }
 
 const Face: React.FC<Face> = ({ face }) => {
   if (face.length) {
     return (
       <div className="face">
-        {face.map((layer, index) => (
-          <div className="face-layer" key={index}>
-            <Sticker color={layer[0]} />
-            <Sticker color={layer[1]} />
-            <Sticker color={layer[2]} />
-          </div>
-        ))}
+        {/* Map all pieces for the ones having White or equivalent 1st tensor el = 0 */}
+        {face.map((piece) => {
+          if (piece.Tensor[0] === 0) {
+            return <Sticker color={piece.Colors[0]} />;
+          }
+        })}
       </div>
     );
   } else {
