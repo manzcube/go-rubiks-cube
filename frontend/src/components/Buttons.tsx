@@ -8,7 +8,6 @@ const Buttons: React.FC<ButtonsProps> = ({ data, setData }) => {
   const { setErrorMessage } = useError();
 
   const turn = async (data: Piece[] | null, movement: string) => {
-    console.log("TURNING CUBE");
     try {
       const response = await fetch(`${BASE_URL}/turn/${movement}`, {
         method: "POST",
@@ -19,7 +18,6 @@ const Buttons: React.FC<ButtonsProps> = ({ data, setData }) => {
       });
 
       if (!response.ok) {
-        console.log("THE RESPONSE", response);
         throw new Error(response.statusText);
       }
 
@@ -28,7 +26,6 @@ const Buttons: React.FC<ButtonsProps> = ({ data, setData }) => {
       return;
     } catch (e) {
       setErrorMessage(`${e}`);
-      console.log("Error sending request:", e);
     }
   };
 

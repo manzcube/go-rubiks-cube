@@ -5,7 +5,6 @@ import { Piece } from "../constants/interfaces";
 import { getColoredFaces, getRotationFromTensor } from "../utils/utils";
 
 const RubiksCube: React.FC<{ cubeData: Piece[] | null }> = ({ cubeData }) => {
-  console.log(cubeData);
   const cubeSize: number = window.innerWidth / 2000;
   const sceneRef = useRef<HTMLDivElement>(null);
   const scene = useRef(new THREE.Scene());
@@ -38,7 +37,7 @@ const RubiksCube: React.FC<{ cubeData: Piece[] | null }> = ({ cubeData }) => {
 
     // If there is data
     if (cubeData) {
-      console.log(cubeData);
+      console.log("Cube Data Structure", cubeData);
       // Create and position the smaller cubes (representing the Rubik's Cube)
       cubeData.forEach((piece) => {
         // The creation of a single cube
