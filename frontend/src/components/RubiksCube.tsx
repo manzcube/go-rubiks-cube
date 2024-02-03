@@ -5,10 +5,14 @@ import { Piece } from "../constants/interfaces";
 import { getColoredFaces, getRotationFromTensor } from "../utils/utils";
 
 const RubiksCube: React.FC<{ cubeData: Piece[] | null }> = ({ cubeData }) => {
-  const cubeSize: number = window.innerWidth / 2000;
   const sceneRef = useRef<HTMLDivElement>(null);
   const scene = useRef(new THREE.Scene());
-  const camera = useRef(new THREE.PerspectiveCamera(100, 1.1, 0.1, 1000));
+  const sizeCondition = window.innerWidth < 500 ? true : false;
+  let cubeSize: number = sizeCondition
+    ? window.innerWidth / 800
+    : window.innerWidth / 2000;
+  let camera = useRef(new THREE.PerspectiveCamera(1000, 1.1, 0.9, 1000));
+
   const renderer = useRef(new THREE.WebGLRenderer({ alpha: true })).current; // Initialize renderer here
   renderer.setClearColor(0x000000, 0);
   const cubes = useRef<THREE.Mesh[]>([]);
@@ -30,7 +34,7 @@ const RubiksCube: React.FC<{ cubeData: Piece[] | null }> = ({ cubeData }) => {
     }
 
     // Set the size, color and check renderer's DOM if already attached
-    renderer.setSize(window.innerWidth / 2, window.innerHeight);
+    renderer.setSize(window.innerWidth, window.innerHeight);
     if (sceneRef.current && !sceneRef.current.contains(renderer.domElement)) {
       sceneRef.current.appendChild(renderer.domElement);
     }

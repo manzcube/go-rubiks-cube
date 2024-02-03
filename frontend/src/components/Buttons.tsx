@@ -2,14 +2,14 @@ import React from "react";
 
 import { ButtonsProps, DataProps, Piece } from "../constants/interfaces";
 import { useError } from "../hooks/useError";
+import { localEndpoint, publicEndpoint } from "../constants/interfaces";
 
 const Buttons: React.FC<ButtonsProps> = ({ data, setData }) => {
-  const BASE_URL = "https://rubiks-cube-server-wpcp.onrender.com";
   const { setErrorMessage } = useError();
 
   const turn = async (data: Piece[] | null, movement: string) => {
     try {
-      const response = await fetch(`${BASE_URL}/turn/${movement}`, {
+      const response = await fetch(`${publicEndpoint}/turn/${movement}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

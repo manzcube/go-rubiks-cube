@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"server/logic/constants"
 	"server/logic/routes"
 
 	"github.com/gin-contrib/cors"
@@ -21,7 +22,7 @@ func main() {
 
 	// Options
 	router.ForwardedByClientIP = true
-	router.SetTrustedProxies([]string{"https://rubiks-cube-client.onrender.com/"}) // Client endpoint
+	router.SetTrustedProxies([]string{constants.PublicEndpoint}) // Client endpoint
 
 	// Register Routes
 	routes.RegisterCubeRoutes(router)

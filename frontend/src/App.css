@@ -4,38 +4,11 @@
   min-height: 100vh;
   overflow: hidden;
   position: relative;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-#left-box {
-  padding: 5ch;
-}
-.App-header {
-  font-size: calc(10px + 2vmin);
-  font-weight: 500;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#left-box {
+  padding: 5ch;
 }
 
 /* Components */
