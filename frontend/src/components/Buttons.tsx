@@ -8,9 +8,8 @@ const Buttons: React.FC<ButtonsProps> = ({ data, setData }) => {
   const { setErrorMessage } = useError();
 
   const turn = async (data: Piece[] | null, movement: string) => {
-    console.log(`${localEndpoint}/turn/${movement}`);
     try {
-      const response = await fetch(`${localEndpoint}/turn/${movement}`, {
+      const response = await fetch(`${publicEndpoint}/turn/${movement}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -22,12 +22,12 @@ func main() {
 
 	// Options
 	router.ForwardedByClientIP = true
-	router.SetTrustedProxies([]string{constants.LocalEndpoint}) // Client endpoint
+	router.SetTrustedProxies([]string{constants.PublicEndpoint}) // Client endpoint
 
 	// Register Routes
 	routes.RegisterCubeRoutes(router)
 
 	// Communicate
-	router.Run("localhost:8080")
+	router.Run(":8080")
 	log.Printf("GIN server running on port 8080\n")
 }
