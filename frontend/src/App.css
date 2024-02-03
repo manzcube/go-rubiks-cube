@@ -58,8 +58,15 @@
   position: absolute;
   padding: 0;
   top: 0;
-  z-index: -1;
   right: 0;
+}
+
+@media screen and (max-width: 500px) {
+  .buttons {
+    position: absolute;
+    max-width: 90%;
+    z-index: 1;
+  }
 }
 
 /* Rubiks Cube */
