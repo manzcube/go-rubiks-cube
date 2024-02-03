@@ -20,7 +20,7 @@ function App() {
     setErrorMessage("");
     const getAbstraction = async () => {
       try {
-        const response = await fetch(publicEndpoint);
+        const response = await fetch(localEndpoint);
         if (!response.ok) {
           throw new Error("Network response was not ok..");
         }
