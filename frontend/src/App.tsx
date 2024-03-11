@@ -10,13 +10,17 @@ import Cube from "./components/Cube";
 import Buttons from "./components/Buttons";
 import ErrorBox from "./components/ErrorBox";
 import RubiksCube from "./components/RubiksCube";
-import { localEndpoint, publicEndpoint, Piece } from "./constants/interfaces";
+import MobileResponse from "./components/MobileResponse";
+
+// Types
+import { Piece } from "./constants/interfaces";
 
 // Images
 const go = require("./images/go-lang.jpg");
 const cube = require("./images/cube.png");
 
 function App() {
+  let isMobile = window.innerWidth / window.innerHeight < 1.6;
   const [data, setData] = useState<Piece[] | null>(null);
   const { setErrorMessage } = useError();
 
@@ -24,7 +28,9 @@ function App() {
     setErrorMessage("");
     const getAbstraction = async () => {
       try {
-        const response = await fetch(localEndpoint);
+        const response = await fetch(
+          `${process.env.REACT_APP_PUBLIC_ENDPOINT}`
+        );
         if (!response.ok) {
           throw new Error("Network response was not ok..");
         }
@@ -39,7 +45,9 @@ function App() {
     getAbstraction();
   }, []);
 
-  return (
+  return isMobile ? (
+    <MobileResponse />
+  ) : (
     <div className="App">
       <ErrorBox />
       <div className="column">

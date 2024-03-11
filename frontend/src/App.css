@@ -1,4 +1,18 @@
-/* App */
+/* MOBILE RESPONSE */
+.mobile-response-page {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2ch;
+}
+
+.mobile-response-page > img {
+  width: 5ch;
+}
+
+/* DEFAULT RESPONSE */
 .App {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
@@ -18,6 +32,11 @@
 /* LEFT COLUMN */
 .App > .column:first-child {
   background-color: #1d1d1d;
+  overflow-y: scroll;
+}
+
+.App > .column:first-child::-webkit-scrollbar {
+  width: 0;
 }
 
 .App > .column:first-child > .header {
@@ -71,6 +90,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 10ch;
 }
 
 .rubiks-cube-abstraction > div:nth-child(2) {
@@ -102,7 +122,6 @@
 }
 
 /* Components */
-
 #error-message-component {
   position: absolute;
   width: fit-content;
@@ -117,20 +136,4 @@
   padding: 1ch;
   background-color: red;
   color: white;
-}
-
-/* 3D Model */
-/* #rubiks-cube-model {
-  position: absolute;
-  padding: 0;
-  top: 0;
-  right: 0;
-} */
-
-@media screen and (max-width: 500px) {
-  .buttons {
-    position: absolute;
-    max-width: 90%;
-    z-index: 1;
-  }
 }

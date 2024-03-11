@@ -27,8 +27,3 @@ export interface Piece {
   Colors: string[];
   PieceType: string;
 }
-
-// Endpoint
-export const publicEndpoint: string =
-  "https://rubiks-cube-server-wpcp.onrender.com";
-export const localEndpoint: string = "http://localhost:8080";

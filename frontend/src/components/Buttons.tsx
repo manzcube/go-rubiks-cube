@@ -1,21 +1,26 @@
 import React from "react";
 
-import { ButtonsProps, DataProps, Piece } from "../constants/interfaces";
+// Types
+import { ButtonsProps, Piece } from "../constants/interfaces";
+
+// Hooks
 import { useError } from "../hooks/useError";
-import { localEndpoint, publicEndpoint } from "../constants/interfaces";
 
 const Buttons: React.FC<ButtonsProps> = ({ data, setData }) => {
   const { setErrorMessage } = useError();
 
   const turn = async (data: Piece[] | null, movement: string) => {
     try {
-      const response = await fetch(`${localEndpoint}/turn/${movement}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_PUBLIC_ENDPOINT}/turn/${movement}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(response.statusText);

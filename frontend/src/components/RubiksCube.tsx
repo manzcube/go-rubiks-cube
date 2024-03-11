@@ -44,7 +44,7 @@ const RubiksCube: React.FC<{ cubeData: Piece[] | null }> = ({ cubeData }) => {
 
     // If there is data
     if (cubeData) {
-      console.log("Cube Data Structure", cubeData);
+      console.log("See the Cube Data Structure: ", cubeData);
       // Create and position the smaller cubes (representing the Rubik's Cube)
       cubeData.forEach((piece) => {
         // The creation of a single cube

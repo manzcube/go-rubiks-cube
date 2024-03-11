@@ -22,7 +22,7 @@ func main() {
 
 	// Options
 	router.ForwardedByClientIP = true
-	router.SetTrustedProxies([]string{constants.LocalEndpoint}) // Client endpoint
+	router.SetTrustedProxies([]string{constants.PublicEndpoint}) // Client endpoint
 
 	// Register Routes
 	routes.RegisterCubeRoutes(router)
