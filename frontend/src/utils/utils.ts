@@ -1,4 +1,4 @@
-import { Piece } from "../constants/interfaces";
+import { IFace, Piece } from "../constants/interfaces";
 import * as THREE from "three";
 
 export const colorMapping: Record<string, number> = {
@@ -9,6 +9,17 @@ export const colorMapping: Record<string, number> = {
   Blue: 0x4141ff, // Blue
   Green: 0x47e747, // Green
 };
+
+// export const getFacePieces: (n: number[], data: IFace) => IFace = (
+//   facePieces: number[],
+//   data: IFace
+// ) => {
+//   let newData: IFace = data;
+
+//   newData = data.map(piece => piece)
+
+//   return newData;
+// };
 
 export const getColoredFaces = (piece: Piece) => {
   // This array will contain 6 MeshBasicMaterial for 6 single cube faces

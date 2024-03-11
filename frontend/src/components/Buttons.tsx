@@ -9,7 +9,7 @@ const Buttons: React.FC<ButtonsProps> = ({ data, setData }) => {
 
   const turn = async (data: Piece[] | null, movement: string) => {
     try {
-      const response = await fetch(`${publicEndpoint}/turn/${movement}`, {
+      const response = await fetch(`${localEndpoint}/turn/${movement}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

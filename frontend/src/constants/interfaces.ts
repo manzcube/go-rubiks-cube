@@ -13,6 +13,15 @@ export interface ErrorProviderProps {
   children: ReactNode;
 }
 
+export interface ICube {
+  data: Piece[] | null;
+}
+
+export interface IFace {
+  data: Piece[];
+  positions: number[];
+}
+
 export interface Piece {
   Tensor: number[];
   Colors: string[];

@@ -1,30 +1,57 @@
 /* App */
 .App {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
   background-color: #22252c;
-  min-height: 100vh;
+  display: flex;
   overflow: hidden;
   position: relative;
   color: white;
 }
 
-#left-box {
-  padding: 5ch;
+.App > .column {
+  width: 50%;
+  height: 100vh;
 }
 
-/* Components */
+/* LEFT COLUMN */
+.App > .column:first-child {
+  background-color: #1d1d1d;
+}
+
+.App > .column:first-child > .header {
+  margin: 2ch;
+  display: flex;
+  gap: 1ch;
+  font-size: 1.3ch;
+  align-items: center;
+}
+
+.App > .column:first-child > .header > img {
+  max-width: 4ch;
+}
+
 .buttons {
-  margin-top: 3ch;
-  width: 100%;
+  display: flex;
+  margin: 2ch;
+  margin-right: 10ch;
+  flex-wrap: wrap;
+}
+
+.App > .column:first-child h5 {
+  margin-left: 5ch;
 }
 
 .buttons > button {
   padding: 1ch;
   margin: 1ch;
+  outline: none;
   border: none;
   font-weight: 900;
   color: white;
   box-shadow: 4px 4px 0 0 rgba(256, 256, 256, 0.1);
-  width: calc(20px + 2vmin);
+  width: 4ch;
   border-radius: 8px;
   background-color: rgb(92, 92, 92);
 }
@@ -34,8 +61,47 @@
 }
 
 .buttons > button:active {
+  transform: translateX(4px) translateY(4px);
   scale: 95%;
+  font-weight: 900;
+  box-shadow: none;
 }
+
+.rubiks-cube-abstraction {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rubiks-cube-abstraction > div:nth-child(2) {
+  display: flex;
+}
+
+.rubiks-cube-abstraction > div:first-child > .face,
+.rubiks-cube-abstraction > div:nth-child(3) > .face {
+  transform: rotate(-90deg);
+}
+
+.face {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0.7ch;
+  flex-direction: column;
+}
+
+.sticker {
+  width: 2ch;
+  height: 2ch;
+  margin: 0.5ch;
+  border-radius: 5px;
+}
+
+/* RIGHT COLUMN */
+.App > .column:last-child {
+  background-color: #242e55;
+}
+
+/* Components */
 
 #error-message-component {
   position: absolute;
@@ -54,12 +120,12 @@
 }
 
 /* 3D Model */
-#rubiks-cube-model {
+/* #rubiks-cube-model {
   position: absolute;
   padding: 0;
   top: 0;
   right: 0;
-}
+} */
 
 @media screen and (max-width: 500px) {
   .buttons {
@@ -67,36 +133,4 @@
     max-width: 90%;
     z-index: 1;
   }
-}
-
-/* Rubiks Cube */
-/* .rubiks-cube-abstraction {
-  margin-top: -5ch;
-  scale: 70%;
-}
-
-.rubiks-cube-abstraction > div:nth-child(2) {
-  display: flex;
-}
-.rubiks-cube-abstraction > div {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-*/
-.face {
-  display: flex;
-  flex-direction: column;
-  margin: 1ch;
-}
-
-.face-layer {
-  display: flex;
-}
-
-.sticker {
-  width: calc(10px + 2vmin);
-  height: calc(10px + 2vmin);
-  margin: 1ch;
-  border-radius: 5px;
 }

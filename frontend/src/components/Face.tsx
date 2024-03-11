@@ -1,21 +1,15 @@
 import React from "react";
 import Sticker from "./Sticker";
-import { Piece } from "../constants/interfaces";
 
-interface Face {
-  face: Piece[];
-}
+import { IFace } from "../constants/interfaces";
 
-const Face: React.FC<Face> = ({ face }) => {
-  if (face.length) {
+const Face: React.FC<IFace> = ({ data, positions }) => {
+  if (data.length) {
     return (
       <div className="face">
-        {/* Map all pieces for the ones having White or equivalent 1st tensor el = 0 */}
-        {face.map((piece) => {
-          if (piece.Tensor[0] === 0) {
-            return <Sticker color={piece.Colors[0]} />;
-          }
-        })}
+        {data.map((piece, i) => (
+          <Sticker key={i} color={piece.Colors[positions[i]]} />
+        ))}
       </div>
     );
   } else {

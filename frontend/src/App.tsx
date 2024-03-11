@@ -12,6 +12,10 @@ import ErrorBox from "./components/ErrorBox";
 import RubiksCube from "./components/RubiksCube";
 import { localEndpoint, publicEndpoint, Piece } from "./constants/interfaces";
 
+// Images
+const go = require("./images/go-lang.jpg");
+const cube = require("./images/cube.png");
+
 function App() {
   const [data, setData] = useState<Piece[] | null>(null);
   const { setErrorMessage } = useError();
@@ -20,7 +24,7 @@ function App() {
     setErrorMessage("");
     const getAbstraction = async () => {
       try {
-        const response = await fetch(publicEndpoint);
+        const response = await fetch(localEndpoint);
         if (!response.ok) {
           throw new Error("Network response was not ok..");
         }
@@ -38,12 +42,24 @@ function App() {
   return (
     <div className="App">
       <ErrorBox />
-      <div id="left-box">
-        <header className="App-header">Rubik's Cube Simulation</header>
-        <Buttons data={data} setData={setData} />
-        {/* <Cube data={data} /> */}
+      <div className="column">
+        <header className="header">
+          Rubik's Cube Go Simulation
+          <img src={cube} alt="cube icon" />
+          <img src={go} alt="go icon" />
+        </header>
+        <div>
+          <h5>Turn the Cube</h5>
+          <Buttons data={data} setData={setData} />
+        </div>
+        <div>
+          <h5>2D Representation</h5>
+          <Cube data={data} />
+        </div>
       </div>
-      <RubiksCube cubeData={data} />
+      <div className="column">
+        <RubiksCube cubeData={data} />
+      </div>
     </div>
   );
 }
